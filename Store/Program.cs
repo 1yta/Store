@@ -1,4 +1,5 @@
 using Infra.Data.Context;
+using Infra.Ioc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,10 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<StoreContext>(options =>
-{
-    options.UseSqlServer("StoreConnectionString");
-});
+// Dependencies
+var connectionString = builder.Configuration.GetConnectionString("StoreConnectionString");
+DependencyContainer.RegisterDependencies(builder.Services, connectionString ?? "");
 
 var app = builder.Build();
 
@@ -27,6 +27,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+  name: "areas",
+  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

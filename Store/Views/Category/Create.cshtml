@@ -1,0 +1,22 @@
+﻿@using Application.ViewModel.Category
+@model UpsertCategoryViewModel
+
+@{
+    ViewData["Title"] = "craete";
+}
+
+<form asp-action="Create" asp-controller="Category">
+    <div class="container">
+
+        <div class="col-sm-4 mb-4">
+            <label asp-for="Title" class="form-label">
+
+            </label>
+            <input type="text" asp-for="Title" class="form-control" />
+        </div>
+
+        <div>
+            <button type="submit">Save</button>
+        </div>
+    </div>
+</form>
